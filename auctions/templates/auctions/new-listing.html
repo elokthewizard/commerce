@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <form>
+        <label for="listing-title">Title:</label>
+        <input type="text" name="listing-title" id="listing-title">
+
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category">
+
+        <label for="description">Description:</label>
+        <textarea name="description" id="description">
+
+        <label for="starting-bid">Starting bid:</label>
+        <input type="number" step="0.01" name="starting-bid" id="starting-bid">
+
+        <label for="minimum-bid">Minimum Bid</label>
+        <input type="number" step="0.01" name="minimum-bid" id="minimum-bid">
+
+        <label for="start-date">Start date:</label>
+        <input type="date" name="start-date" id="start-date">
+
+        <label for="end-date">End date:</label>
+        <input type="date" name="end-date" id="end-date">
+
+        <input type="text" value="submit">
+    </form>
+{% endblock %}

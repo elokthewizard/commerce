@@ -7,6 +7,8 @@ from django.utils import timezone
 class User(AbstractUser):
     pass
 
+# set default end date
+
 def default_end_date():
     return timezone.now() + timedelta(days=3)
 
