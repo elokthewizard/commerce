@@ -121,3 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+
+# future proof auto incrementing fields
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

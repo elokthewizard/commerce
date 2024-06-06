@@ -2,20 +2,23 @@
 
 {% block body %}
     <form>
-        <label for="listing-title">Title:</label>
-        <input type="text" name="listing-title" id="listing-title">
+        <label for="image-link">Link to image:</label>
+        <input type="text" name="image-link" id="image-link" placeholder="google.com/images/somepic">
 
-        <label for="category">Category:</label>
-        <input type="text" name="category" id="category">
+        <label for="listing-title">Title:</label>
+        <input type="text" name="listing-title" id="listing-title" placeholder="Pots and Pans">
 
         <label for="description">Description:</label>
-        <textarea name="description" id="description">
+        <textarea name="description" id="description" placeholder="Describe your item here"></textarea>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category" placeholder="kitchenware">
 
         <label for="starting-bid">Starting bid:</label>
-        <input type="number" step="0.01" name="starting-bid" id="starting-bid">
+        <input type="number" step="0.01" name="starting-bid" id="starting-bid" placeholder="$25">
 
         <label for="minimum-bid">Minimum Bid</label>
-        <input type="number" step="0.01" name="minimum-bid" id="minimum-bid">
+        <input type="number" step="0.01" name="minimum-bid" id="minimum-bid" placeholder="$100">
 
         <label for="start-date">Start date:</label>
         <input type="date" name="start-date" id="start-date">
@@ -23,6 +26,6 @@
         <label for="end-date">End date:</label>
         <input type="date" name="end-date" id="end-date">
 
-        <input type="text" value="submit">
+        <input type="submit" value="submit">
     </form>
 {% endblock %}
