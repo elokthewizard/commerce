@@ -13,17 +13,18 @@ def default_end_date():
     return timezone.now() + timedelta(days=3)
 
 class Listing(models.Model):
-    #todo: image path
-    # image = models.ImageField()
-
     # setup one to many relationship to User class
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    # allow user to link image via url
+    image_path = models.CharField(max_length=64)
+
     title = models.CharField(max_length=64)
+    category = models.CharField(max_length=64)
     description = models.TextField(max_length=256)
 
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
-    minimum_bid = models.DecimalField(max_digits=10, decimal_places=2)
+    minimum_buyout = models.DecimalField(max_digits=10, decimal_places=2)
     current_offer = models.DecimalField(max_digits=10, decimal_places=2)
 
     start_date = models.DateTimeField(auto_now_add=True, blank=False)

@@ -1,0 +1,64 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+New Listing
+{% endblock %}
+
+{% block body %}
+    <form action="create-listing.html" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+            <label for="image-link">Link to image:</label>
+            <input class="form-control" type="text" name="image-link" id="image-link" placeholder="google.com/images/somepic">
+
+            <hr>
+
+            <label for="listing-title">Title:</label>
+            <input class="form-control" type="text" name="listing-title" id="listing-title" placeholder="Pots and Pans">
+
+            <label for="category">Category:</label>
+            <input class="form-control" type="text" name="category" id="category" placeholder="kitchenware">
+
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" id="description" placeholder="Describe your item here"></textarea>
+
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+
+            <div class="bid-amounts">
+
+                <div class="form-group">
+                    <label for="starting-bid">Starting bid:</label>
+                    <input class="form-control" type="number" step="0.01" name="starting-bid" id="starting-bid" placeholder="$25">
+                </div>
+
+                <div class="form-group">
+                    <label for="minimum-buyout">Minimum buyout:</label>
+                    <input class="form-control" type="number" step="0.01" name="minimum-bid" id="minimum-bid" placeholder="$100">
+                </div>
+
+            </div>
+
+            <div class="auction-dates">
+
+                <div class="form-group">
+                    <label for="start-date">Start date:</label>
+                    <input class="form-control" type="date" name="start-date" id="start-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="end-date">End date:</label>
+                    <input class="form-control" type="date" name="end-date" id="end-date">
+                </div>
+            </div>
+
+        </div>
+
+        <input type="submit" value="submit">
+
+    </form>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Listing
 
 
 def index(request):
@@ -64,6 +64,20 @@ def register(request):
 
 
 # handle new lisitng
-def new_listing(request):
+def create_listing(request):
     if request.method == "GET":
-        return render(request, "auctions/new-listing.html")
+        return render(request, "auctions/create-listing.html")
+    else:
+        form = Listing(request.POST)
+        if form.is_valid():
+            listings = Listing.objects
+            # save form data in listing instance but dont commit yet
+            new_listing = form.save(commit=False)
+            # set value of owner field to current user
+            new_listing.owner = request.user
+            new_listing.save()
+            return render(request, "auctions/index.html", {
+                'listings': listings
+            })
+
+        return render(request, "auctions/{str:title}.html")
