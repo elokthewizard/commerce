@@ -2,7 +2,37 @@ body {
     padding: 10px;
 }
 
-.auction-dates,
-.bid-amounts {
+.auction-dates {
     display: flex;
+}
+
+.bid-amounts {
+    display: block;
+}
+
+.form-group {
+    display: flex;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+label {
+    margin: 0;
+    margin-right: 0.5rem;
+}
+
+.listing-identifiers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.listing-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+textarea {
+    resize: none;
 }

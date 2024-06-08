@@ -2,17 +2,18 @@
 
 {% block body %}
     <h2>Active Listings</h2>
+
     {% for listing in listings %}
-        {{ listing.image_path }}
-        <a>{{ listing.title }}</a>
-        {{ listing.category }}
-        {{ listing.description }}
+        <img src="{{ listing.image_path }}">
+        <p><a>{{ listing.title }}</a>
+        <p>{{ listing.category }}</p>
+        <p>{{ listing.description }}</p>
 
-        {{ listing.starting_bid }}
-        {{ listing.minimum_buyout }}
-        {{ listing.current_offer }}
+        <p>{{ listing.starting_bid }}</p>
+        <p>{{ listing.minimum_buyout }}</p>
+        <p>{{ listing.current_offer }}</p>
 
-        {{ listing.start_date }}
-        {{ listing.end_date }}
+        <p>{{ listing.start_date }}</p>
+        <p>{{ listing.end_date }}</p>
     {% endfor %}
 {% endblock %}

@@ -1,14 +1,37 @@
+from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from decimal import Decimal
 
 from .models import User, Listing
 
+# create use model form ot hold form data
+class ListingForm(forms.ModelForm):
+    # inherit model members as form fields
+    class Meta:
+        model = Listing
+        fields = '__all__'
+
+        # change default widget start and end date
+        widgets = {
+            'start_date': forms.HiddenInput(),
+            'end_date': forms.SelectDateWidget()
+        }
+
+        exclude = [
+            'owner',
+            'current_offer'
+        ]
+
 
 def index(request):
-    return render(request, "auctions/index.html")
+    listings = Listing.objects.all()
+    return render(request, "auctions/index.html", {
+        "listings": listings
+    })
 
 
 def login_view(request):
@@ -65,19 +88,35 @@ def register(request):
 
 # handle new lisitng
 def create_listing(request):
-    if request.method == "GET":
-        return render(request, "auctions/create-listing.html")
-    else:
-        form = Listing(request.POST)
-        if form.is_valid():
-            listings = Listing.objects
+    if request.method == "POST":
+    
+        form = ListingForm(request.POST, instance=Listing())
+        
+        if request.user is not None and form.is_valid():
+            
             # save form data in listing instance but dont commit yet
             new_listing = form.save(commit=False)
             # set value of owner field to current user
             new_listing.owner = request.user
-            new_listing.save()
-            return render(request, "auctions/index.html", {
-                'listings': listings
-            })
+            
+            print("Starting bid:", request.POST['starting_bid'])
+            print("Minimum buyout:", request.POST['minimum_buyout'])
 
-        return render(request, "auctions/{str:title}.html")
+            new_listing.starting_bid = Decimal(int(request.POST['starting_bid']))
+            new_listing.minimum_buyout = Decimal(int(request.POST['minimum_buyout']))
+
+            new_listing.save()
+
+        listings = Listing.objects.all()
+        print(form.errors)
+        return render(request, "auctions/index.html", {
+            "listings": listings
+        })
+    
+    
+    else:
+        form = ListingForm(instance=Listing())
+        return render(request, "auctions/create-listing.html", {
+            "form": form
+        })
+    

@@ -33,6 +33,13 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
     
+    # if no offer has been made yet, default to starting bid (thanks copilot!)
+    def save(self, *args, **kwargs):
+        if not self.current_offer:
+            self.current_offer = self.starting_bid
+        super().save(*args, **kwargs)
+
+    
 class Bid(models.Model):
     user = models.CharField(max_length=32)
     date = models.DateTimeField(auto_now_add=True)
