@@ -4,16 +4,19 @@
     <h2>Active Listings</h2>
 
     {% for listing in listings %}
-        <img src="{{ listing.image_path }}">
-        <p><a>{{ listing.title }}</a>
-        <p>{{ listing.category }}</p>
-        <p>{{ listing.description }}</p>
-
-        <p>{{ listing.starting_bid }}</p>
-        <p>{{ listing.minimum_buyout }}</p>
-        <p>{{ listing.current_offer }}</p>
-
-        <p>{{ listing.start_date }}</p>
-        <p>{{ listing.end_date }}</p>
+        <div class="card">
+            <img src="{{ listing.image_path }}">
+            <p><a href="{% url 'listing-detail' listing.id %}">{{ listing.title }}</a></p>
+            <p>{{ listing.category }}</p>
+            <p>{{ listing.description }}</p>
+            <p>{{ listing.starting_bid }}</p>
+            <p>{{ listing.minimum_buyout }}</p>
+            <p>{{ listing.current_offer }}</p>
+            <p>{{ listing.start_date }}</p>
+            <p>{{ listing.end_date }}</p>
+            {% if user.is_authenticated %}
+            <a href="#">Add to WATCHED</a>
+            {% endif %}
+        </div>
     {% endfor %}
 {% endblock %}

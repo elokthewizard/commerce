@@ -1,5 +1,6 @@
 body {
-    padding: 10px;
+    padding: 1.25rem;
+    width: 100vw;
 }
 
 .auction-dates {
@@ -8,6 +9,18 @@ body {
 
 .bid-amounts {
     display: block;
+}
+
+.card {
+    border: solid;
+    padding: 1.25rem;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.card img {
+    max-height: 50%;
+    margin: 1rem;
 }
 
 .form-group {
