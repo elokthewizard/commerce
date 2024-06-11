@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <img src="{{ listing.image_path }}">
+
+    <div class="listing-info">
+        <div class="listing-identifiers">
+            
+            <strong>{{ listing.title }}</strong>
+            <p>{{ listing.description }}</p>
+            <i>{{ listing.category }}</i>
+
+        </div>
+    </div>
+    <div class="bid-amounts">
+
+        <strong><i>Starting bid: </i></strong>{{ listing.starting_bid }}
+        <strong><i>Minimum sale: </i></strong>{{ listing.minimum_buyout }}
+        <strong><i>Current bid: </i></strong>{{ listing.current_offer }}
+
+    </div>
+    <div class="auction-dates">
+
+        <strong><i>Began: </i></strong>{{ listing.start_date }} 
+        <strong><i>Ends: </i></strong>{{ listing.end_date }} 
+
+    </div>
+    <hr>
+{% endblock %}
