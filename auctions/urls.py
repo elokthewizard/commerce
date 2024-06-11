@@ -10,4 +10,6 @@ urlpatterns = [
     path("create-listing", views.create_listing, name="create-listing"),
     path("register", views.register, name="register"),
     path("listing/<int:pk>/", ListingDetailView.as_view(), name='listing-detail'),
+    path("listing/<int:pk>/add", views.add_favorite, name="add_favorite"),
+    path("listing/<int:pk>/remove", views.remove_favorite, name="remove_favorite"),
 ]

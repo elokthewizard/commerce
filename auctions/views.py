@@ -2,12 +2,28 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from decimal import Decimal
 
 from .models import User, Listing
+
+def add_favorite(request, pk):
+    favorited = get_object_or_404(Listing, pk=pk)
+    if request.user not in favorited.favorite.all():
+        favorited.favorite.add(request.user)
+    return redirect('index')
+
+def remove_favorite(request, pk):
+    favorited = get_object_or_404(Listing, pk=pk)
+    if request.user in favorited.favorite.all():
+        favorited.favorite.remove(request.user)
+    return redirect('index')
+
+def favorite(request):
+    favorites = Listing.objects.all()
+    context = {'favorites': favorites}
 
 # create use model form ot hold form data
 class ListingForm(forms.ModelForm):

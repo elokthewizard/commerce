@@ -30,6 +30,8 @@ class Listing(models.Model):
     start_date = models.DateTimeField(auto_now_add=True, blank=False)
     end_date = models.DateTimeField(default=default_end_date)
 
+    favorite = models.ManyToManyField(User, related_name='user_favorite')
+
     def __str__(self):
         return self.title
     

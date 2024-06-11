@@ -5,7 +5,9 @@
 
     {% for listing in listings %}
         <div class="card">
+
             <img src="{{ listing.image_path }}">
+
             <p><a href="{% url 'listing-detail' listing.id %}">{{ listing.title }}</a></p>
             <p>{{ listing.category }}</p>
             <p>{{ listing.description }}</p>
@@ -14,9 +16,23 @@
             <p>{{ listing.current_offer }}</p>
             <p>{{ listing.start_date }}</p>
             <p>{{ listing.end_date }}</p>
+
+            <!-- stack overflow rocks: https://stackoverflow.com/questions/66257014/add-to-favourite-list-in-django -->
+
             {% if user.is_authenticated %}
-            <a href="#">Add to WATCHED</a>
-            {% endif %}
+                        
+                {% if request.user in listing.favorite.all %}
+                    <a  href="{% url 'remove_favorite' listing.pk %}"> Remove </a>
+                {% else %}
+                    <a  href="{% url 'add_favorite' listing.pk %}"> Add </a>
+                {% endif %} 
+
+        {% endif %}
+
         </div>
+
+        
     {% endfor %}
+
+    
 {% endblock %}
