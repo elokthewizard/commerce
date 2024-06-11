@@ -14,9 +14,14 @@
     </div>
     <div class="bid-amounts">
 
-        <strong><i>Starting bid: </i></strong>{{ listing.starting_bid }}
-        <strong><i>Minimum sale: </i></strong>{{ listing.minimum_buyout }}
-        <strong><i>Current bid: </i></strong>{{ listing.current_offer }}
+        {% if listing.current_offer > listing.starting_bid %}
+            <strong>Highest Bidder:</strong>{{ listing.highest_bidder }}
+            <strong><i>Current bid: </i></strong>${{ listing.current_offer|floatformat:2 }}
+        {% else %}
+            <strong><i>Starting bid: </i></strong>${{ listing.starting_bid|floatformat:2 }}
+        {% endif %}
+        <strong><i>Minimum sale: </i></strong>${{ listing.minimum_buyout|floatformat:2 }}
+        
 
     </div>
     <div class="auction-dates">
@@ -25,4 +30,18 @@
         <strong><i>Ends: </i></strong>{{ listing.end_date }} 
 
     </div>
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="new_offer">Custom offer:</label>
+            <input type="number" name="new_offer">
+            <input type="submit" value="Bid">
+        </form>
+    {% endif %}
+
+    {% if message %}
+        <div style="color: red; font-weight: bold; font-style: italic;">{{ message }}</div>
+    {% endif %}
+    
 {% endblock %}

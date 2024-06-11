@@ -14,7 +14,7 @@ def default_end_date():
 
 class Listing(models.Model):
     # setup one to many relationship to User class
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listing_owner")
 
     # allow user to link image via url
     image_path = models.CharField(max_length=64)
@@ -26,6 +26,7 @@ class Listing(models.Model):
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     minimum_buyout = models.DecimalField(max_digits=10, decimal_places=2)
     current_offer = models.DecimalField(max_digits=10, decimal_places=2)
+    highest_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="highest_bidder")
 
     start_date = models.DateTimeField(auto_now_add=True, blank=False)
     end_date = models.DateTimeField(default=default_end_date)

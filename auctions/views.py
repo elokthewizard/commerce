@@ -25,7 +25,7 @@ def favorite(request):
     favorites = Listing.objects.all()
     context = {'favorites': favorites}
 
-# create use model form ot hold form data
+# use form model to hold form data. thanks (again) copilot!
 class ListingForm(forms.ModelForm):
     # inherit model members as form fields
     class Meta:
@@ -45,6 +45,24 @@ class ListingForm(forms.ModelForm):
 
 class ListingDetailView(DetailView):
     model = Listing
+    # handle new bids
+    def post(self, request, *args, **kwargs):
+        listing = get_object_or_404(Listing, pk=kwargs['pk'])
+        new_offer = request.POST.get('new_offer')
+
+        if new_offer and Decimal(new_offer) > listing.current_offer:
+            listing.current_offer = Decimal(new_offer)
+            listing.highest_bidder = request.user
+            listing.save()
+
+            return render(request, "auctions/listing_detail.html", {
+                "listing": listing
+            })
+        else:
+            return render(request, "auctions/listing_detail.html", {
+                "listing": listing,
+                "message": "Please enter a valid bid."
+            })
 
 
 def index(request):
