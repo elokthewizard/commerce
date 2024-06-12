@@ -2,6 +2,10 @@
 
 {% block body %}
 
+{% if listing.highest_bidder == request.user and listing.active == False %}
+    <div>You won!</div>
+{% endif %}
+
     <div class="listing-info">
         <img src="{{ listing.image_path }}">
         <div class="listing-identifiers">
@@ -32,7 +36,7 @@
 
     </div>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and listing.active == True %}
         <form method="post">
             {% csrf_token %}
             <label for="new_offer">Custom offer:</label>
@@ -50,6 +54,14 @@
 
     {% if message %}
         <div style="color: red; font-weight: bold; font-style: italic;">{{ message }}</div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if request.user in listing.favorite.all %}
+                <a  href="{% url 'remove_favorite' listing.pk %}"> Remove from watchlist </a>
+            {% else %}
+                <a  href="{% url 'add_favorite' listing.pk %}"> Add to watchlist </a>
+        {% endif %}
     {% endif %}
     
 {% endblock %}

@@ -82,7 +82,7 @@ class ListingDetailView(DetailView):
 
 
 def index(request):
-    listings = Listing.objects.all()
+    listings = Listing.objects.order_by('-active')
     return render(request, "auctions/index.html", {
         "listings": listings
     })
