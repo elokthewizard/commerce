@@ -31,6 +31,8 @@ class Listing(models.Model):
     start_date = models.DateTimeField(auto_now_add=True, blank=False)
     end_date = models.DateTimeField(default=default_end_date)
 
+    active = models.BooleanField(default=True)
+
     favorite = models.ManyToManyField(User, related_name='user_favorite')
 
     def __str__(self):
@@ -44,10 +46,10 @@ class Listing(models.Model):
 
     
 class Bid(models.Model):
-    user = models.CharField(max_length=32)
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

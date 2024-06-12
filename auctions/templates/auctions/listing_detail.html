@@ -1,14 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <img src="{{ listing.image_path }}">
 
     <div class="listing-info">
+        <img src="{{ listing.image_path }}">
         <div class="listing-identifiers">
             
-            <strong>{{ listing.title }}</strong>
+            <strong>{{ listing.title }}</strong> 
+            <strong>Category: </strong><i>{{ listing.category }}</i>
             <p>{{ listing.description }}</p>
-            <i>{{ listing.category }}</i>
+            
 
         </div>
     </div>
@@ -26,7 +27,7 @@
     </div>
     <div class="auction-dates">
 
-        <strong><i>Began: </i></strong>{{ listing.start_date }} 
+        <strong><i>Started: </i></strong>{{ listing.start_date }} 
         <strong><i>Ends: </i></strong>{{ listing.end_date }} 
 
     </div>

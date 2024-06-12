@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic.detail import DetailView
 from decimal import Decimal
 
-from .models import User, Listing
+from .models import User, Listing, Bid
 
 def add_favorite(request, pk):
     favorited = get_object_or_404(Listing, pk=pk)
@@ -55,13 +55,22 @@ class ListingDetailView(DetailView):
             listing.highest_bidder = request.user
             listing.save()
 
-            return render(request, "auctions/listing_detail.html", {
-                "listing": listing
-            })
-        else:
+            bid = Bid(listing=listing, bidder=request.user, amount=Decimal(new_offer))
+            bid.save()
+
+            message = "Bid placed"
+
             return render(request, "auctions/listing_detail.html", {
                 "listing": listing,
-                "message": "Please enter a valid bid."
+                "message": message
+            })
+        else:
+
+            message = "Please enter a valid bid."
+            
+            return render(request, "auctions/listing_detail.html", {
+                "listing": listing,
+                "message": message
             })
 
 
