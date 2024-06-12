@@ -30,7 +30,8 @@
                         <a  href="{% url 'remove_favorite' listing.pk %}"> Remove </a>
                     {% else %}
                         <a  href="{% url 'add_favorite' listing.pk %}"> Add </a>
-                    {% endif %} 
+
+                {% endif %} 
 
             {% endif %}
 

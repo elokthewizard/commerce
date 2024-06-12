@@ -9,6 +9,13 @@ from decimal import Decimal
 
 from .models import User, Listing, Bid
 
+def close_listing(request, pk):
+    if request.method == "POST":
+        listing = get_object_or_404(Listing, pk=pk)
+        listing.active = False
+        listing.save()
+    return redirect('index')
+
 def add_favorite(request, pk):
     favorited = get_object_or_404(Listing, pk=pk)
     if request.user not in favorited.favorite.all():

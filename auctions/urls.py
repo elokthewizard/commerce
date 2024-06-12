@@ -12,4 +12,5 @@ urlpatterns = [
     path("listing/<int:pk>/", ListingDetailView.as_view(), name='listing-detail'),
     path("listing/<int:pk>/add", views.add_favorite, name="add_favorite"),
     path("listing/<int:pk>/remove", views.remove_favorite, name="remove_favorite"),
+    path("listing/<int:pk>/close_listing", views.close_listing, name="close_listing")
 ]
