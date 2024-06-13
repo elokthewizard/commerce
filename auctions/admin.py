@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Listing, Bid
+from .models import Listing, Bid, Comment
 
 # Register your models here.
 @admin.register(Listing)
@@ -30,3 +30,13 @@ class BidAdmin(admin.ModelAdmin):
         'date',
         'amount'
     ]
+
+    @admin.register(Comment)
+    class CommentAdmin(admin.ModelAdmin):
+        list_display = [
+            'user',
+            'listing',
+            'date',
+            'title',
+            'body'
+        ]

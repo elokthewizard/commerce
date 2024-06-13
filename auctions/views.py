@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic.detail import DetailView
 from decimal import Decimal
 
-from .models import User, Listing, Bid
+from .models import User, Listing, Bid, Comment
 
 def close_listing(request, pk):
     if request.method == "POST":
@@ -52,6 +52,7 @@ class ListingForm(forms.ModelForm):
 
 class ListingDetailView(DetailView):
     model = Listing
+
     # handle new bids
     def post(self, request, *args, **kwargs):
         listing = get_object_or_404(Listing, pk=kwargs['pk'])
@@ -67,24 +68,50 @@ class ListingDetailView(DetailView):
 
             message = "Bid placed"
 
-            return render(request, "auctions/listing_detail.html", {
-                "listing": listing,
-                "message": message
-            })
         else:
-
             message = "Please enter a valid bid."
             
-            return render(request, "auctions/listing_detail.html", {
-                "listing": listing,
-                "message": message
-            })
+        comments = Comment.objects.filter(listing=listing)
+        print(comments)
+        return render(request, "auctions/listing_detail.html", {
+            "listing": listing,
+            "message": message,
+            "comments": comments
+        })
+    def get(self, request, *args, **kwargs):
+
+        listing = get_object_or_404(Listing, pk=kwargs['pk'])
+        comments = Comment.objects.filter(listing=listing)
+        print(comments)
+        return render(request, "auctions/listing_detail.html", {
+            "listing": listing,
+            "comments": comments
+        })
+        
+def new_comment(request, pk):
+    listing = get_object_or_404(Listing, pk=pk)
+
+    if request.method == "POST":
+        user = request.user
+        title = request.POST.get('comment_title')
+        body = request.POST.get('comment_body')
+
+        comment = Comment(user=user, listing=listing, title=title, body=body)
+        comment.save()
+    comments = Comment.objects.filter(listing=listing)
+    return render(request, "{% url 'listing_detail' listing.pk %}", {
+        'listing': listing,
+        'comments': comments
+    })
+        
 
 
 def index(request):
     listings = Listing.objects.order_by('-active')
+    comments = Comment.objects.all()
     return render(request, "auctions/index.html", {
-        "listings": listings
+        "listings": listings,
+        "comments": comments
     })
 
 

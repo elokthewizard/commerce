@@ -44,6 +44,12 @@ class Listing(models.Model):
             self.current_offer = self.starting_bid
         super().save(*args, **kwargs)
 
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=32)
+    body = models.TextField(max_length=128)
     
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,8 +57,3 @@ class Bid(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=32)
-    comment = models.TextField(max_length=128)
