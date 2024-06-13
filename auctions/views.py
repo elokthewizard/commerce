@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -27,10 +28,6 @@ def remove_favorite(request, pk):
     if request.user in favorited.favorite.all():
         favorited.favorite.remove(request.user)
     return redirect('index')
-
-def favorite(request):
-    favorites = Listing.objects.all()
-    context = {'favorites': favorites}
 
 # use form model to hold form data. thanks (again) copilot!
 class ListingForm(forms.ModelForm):
@@ -108,10 +105,15 @@ def new_comment(request, pk):
 
 def index(request):
     listings = Listing.objects.order_by('-active')
-    comments = Comment.objects.all()
     return render(request, "auctions/index.html", {
         "listings": listings,
-        "comments": comments
+    })
+
+@login_required
+def watchlist(request):
+    watchlist = request.user.user_favorite.all()
+    return render(request, 'auctions/watchlist.html', {
+        'watchlist': watchlist
     })
 
 
@@ -168,6 +170,7 @@ def register(request):
 
 
 # handle new lisitng
+@login_required
 def create_listing(request):
     if request.method == "POST":
     

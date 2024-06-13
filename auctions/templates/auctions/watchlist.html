@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% for listing in watchlist %}
+        {% if listing.active == True %}
+        <h2>Active Listings</h2>
+            <div class="card">
+
+                <img src="{{ listing.image_path }}">
+
+                <p><a href="{% url 'listing-detail' listing.id %}">{{ listing.title }}</a></p>
+                <p>{{ listing.category }}</p>
+                <p><i>{{ listing.description }}</i></p>
+                {% if current_offer > starting_bid %}
+                <p><strong>Current bid: </strong>${{ listing.current_offer }}</p>
+                {% else %}
+                <p><strong>Current bid: </strong>${{ listing.starting_bid }}</p>
+                {% endif %}
+                <p><strong>Minimum buyout: </strong>${{ listing.minimum_buyout }}</p>
+                
+                <p><strong>Started: </strong>{{ listing.start_date }}</p>
+                <p><strong>Ends: </strong>{{ listing.end_date }}</p>
+
+                <!-- stack overflow rocks: https://stackoverflow.com/questions/66257014/add-to-favourite-list-in-django -->
+
+                {% if user.is_authenticated %}
+                            
+                    {% if request.user in listing.favorite.all %}
+                        <a  href="{% url 'remove_favorite' listing.pk %}"> Remove from watchlist </a>
+                    {% else %}
+                        <a  href="{% url 'add_favorite' listing.pk %}"> Add to watchlist </a>
+                    {% endif %} 
+                
+                {% endif %}
+
+            </div>
+        {% elif listing.active == False and listing.highest_bidder == request.user %}
+            <h2>Recently ended</h2>
+            <div class="card">
+                <div>You won!</div>
+                <img src="{{ listing.image_path }}">
+
+                <p><a href="{% url 'listing-detail' listing.id %}">{{ listing.title }}</a></p>
+                <p>{{ listing.category }}</p>
+                <p><i>{{ listing.description }}</i></p>
+                {% if current_offer > starting_bid %}
+                <p><strong>Current bid: </strong>${{ listing.current_offer }}</p>
+                {% else %}
+                <p><strong>Current bid: </strong>${{ listing.starting_bid }}</p>
+                {% endif %}
+                <p><strong>Minimum buyout: </strong>${{ listing.minimum_buyout }}</p>
+                
+                <p><strong>Started: </strong>{{ listing.start_date }}</p>
+                <p><strong>Ends: </strong>{{ listing.end_date }}</p>
+
+                <!-- stack overflow rocks: https://stackoverflow.com/questions/66257014/add-to-favourite-list-in-django -->
+
+            </div>
+
+        {% endif %}
+    {% endfor %}
+{% endblock %}

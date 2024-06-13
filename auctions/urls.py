@@ -13,5 +13,6 @@ urlpatterns = [
     path("listing/<int:pk>/add", views.add_favorite, name="add_favorite"),
     path("listing/<int:pk>/remove", views.remove_favorite, name="remove_favorite"),
     path("listing/<int:pk>/close_listing", views.close_listing, name="close_listing"),
-    path("listing/<int:pk>/new_comment", views.new_comment, name="new_comment")
+    path("listing/<int:pk>/new_comment", views.new_comment, name="new_comment"),
+    path("watchlist", views.watchlist, name="watchlist")
 ]
